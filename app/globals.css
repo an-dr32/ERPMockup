@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 32 95% 44%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 13% 96%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 220 13% 96%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 220 13% 96%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 32 95% 44%;
+    --chart-1: 32 95% 44%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+    
+    /* ERP specific colors */
+    --sidebar-bg: 0 0% 100%;
+    --sidebar-text: 0 0% 0%;
+    --sidebar-active: 32 95% 44%;
+    --header-bg: 0 0% 100%;
+    --dashboard-bg: 0 0% 100%;
+  }
+  
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+    --popover: 224 71% 4%;
+    --popover-foreground: 213 31% 91%;
+    --primary: 32 95% 44%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 215 28% 17%;
+    --secondary-foreground: 213 31% 91%;
+    --muted: 215 28% 17%;
+    --muted-foreground: 218 11% 65%;
+    --accent: 215 28% 17%;
+    --accent-foreground: 213 31% 91%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 213 31% 91%;
+    --border: 215 28% 17%;
+    --input: 215 28% 17%;
+    --ring: 32 95% 44%;
+    --chart-1: 32 95% 44%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    
+    /* ERP specific dark colors */
+    --sidebar-bg: 215 28% 17%;
+    --sidebar-text: 218 11% 65%;
+    --sidebar-active: 32 95% 44%;
+    --header-bg: 224 71% 4%;
+    --dashboard-bg: 215 28% 17%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  .erp-sidebar {
+    @apply bg-[hsl(var(--sidebar-bg))] text-[hsl(var(--sidebar-text))];
+  }
+  
+  .erp-header {
+    @apply bg-[hsl(var(--header-bg))] border-b border-border;
+  }
+  
+  .erp-dashboard {
+    @apply bg-[hsl(var(--dashboard-bg))];
+  }
+  
+  .data-table {
+    @apply w-full border-collapse;
+  }
+  
+  .data-table th {
+    @apply bg-muted text-muted-foreground font-medium text-left py-3 px-4 border-b;
+  }
+  
+  .data-table td {
+    @apply py-3 px-4 border-b border-border;
+  }
+  
+  .data-table tr:hover {
+    @apply bg-muted/50;
+  }
+}
+
+/* Material Design elevation shadows */
+.elevation-1 {
+  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
+}
+
+.elevation-2 {
+  box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+}
+
+.elevation-4 {
+  box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+
+/* Hide Next.js badge and error messages */
+body > nextjs-portal {
+  display: none;
+}
