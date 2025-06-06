@@ -53,7 +53,10 @@ export default function NewPasswordForm() {
     // Simulate password reset
     setTimeout(() => {
       console.log("Password reset successful");
-      localStorage.removeItem("resetEmail");
+
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("resetEmail");
+      }
       toast({
         title: "Password reset successful",
         description: "Your password has been updated. Please login with your new password.",
@@ -63,8 +66,8 @@ export default function NewPasswordForm() {
     }, 1500);
   };
 
-  const passwordMatch = formData.password && formData.confirmPassword && 
-                       formData.password === formData.confirmPassword;
+  const passwordMatch = formData.password && formData.confirmPassword &&
+    formData.password === formData.confirmPassword;
 
   return (
     <div className="w-full max-w-md space-y-8">

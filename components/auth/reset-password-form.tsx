@@ -25,7 +25,9 @@ export default function ResetPasswordForm() {
     setTimeout(() => {
       if (email === "admin@company.com") {
         console.log("Email found, redirecting to 2FA");
-        localStorage.setItem("resetEmail", email);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("resetEmail", email);
+        }
         toast({
           title: "Email sent",
           description: "Check your email for the verification code",

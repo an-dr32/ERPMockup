@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { RiEyeLine, RiEyeOffLine, RiMailLine, RiLockLine, RiUser3Line } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 
 export default function LoginForm() {
+  const [email, setEmail] = useState("");
+
   const router = useRouter();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
