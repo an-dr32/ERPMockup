@@ -38,16 +38,26 @@ interface DataTableProps {
   onDelete?: (item: any) => void;
 }
 
-export default function DataTable({ 
-  title, 
-  data, 
-  columns, 
-  onAdd, 
-  onEdit, 
-  onDelete 
+export default function DataTable({
+  title,
+  data,
+  columns,
+  onAdd,
+  onEdit,
+  onDelete
 }: DataTableProps) {
   const { toast } = useToast();
   const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [search, setSearch] = useState("");
+
+  // Filter data based on search
+  const filteredData = data.filter((item) =>
+    columns.some((column) =>
+      String(item[column.key] ?? "")
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    )
+  );
 
   console.log("DataTable rendered", { title, dataCount: data.length });
 
@@ -90,12 +100,21 @@ export default function DataTable({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <h2 className="text-2xl font-bold tracking-tight">{title}</h2>
-        <Button onClick={handleAdd} className="bg-erp-primary hover:bg-erp-primary-dark">
-          <RiAddLine className="mr-2 h-4 w-4" />
-          Add New
-        </Button>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="border rounded px-3 py-1 text-sm"
+          />
+          <Button onClick={handleAdd} className="bg-erp-primary hover:bg-erp-primary-dark">
+            <RiAddLine className="mr-2 h-4 w-4" />
+            Add New
+          </Button>
+        </div>
       </div>
 
       <div className="border rounded-lg">
@@ -113,19 +132,20 @@ export default function DataTable({
           <TableBody>
             {data.length === 0 ? (
               <TableRow>
-                <TableCell 
-                  colSpan={columns.length + 1} 
+                <TableCell
+                  colSpan={columns.length + 1}
                   className="text-center py-8 text-muted-foreground"
                 >
                   No data available
                 </TableCell>
               </TableRow>
             ) : (
-              data.map((item, index) => (
+              filteredData.map((item, index) => (
+
                 <TableRow key={item.id || index} className="hover:bg-muted/50">
                   {columns.map((column) => (
                     <TableCell key={column.key}>
-                      {column.render 
+                      {column.render
                         ? column.render(item[column.key], item)
                         : item[column.key]
                       }
@@ -141,7 +161,7 @@ export default function DataTable({
                       >
                         <RiEditLine className="h-4 w-4" />
                       </Button>
-                      
+
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <Button
@@ -157,13 +177,13 @@ export default function DataTable({
                           <AlertDialogHeader>
                             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                             <AlertDialogDescription>
-                              This action cannot be undone. This will permanently delete the 
+                              This action cannot be undone. This will permanently delete the
                               item with code "{selectedItem?.code || selectedItem?.id}".
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction 
+                            <AlertDialogAction
                               onClick={() => handleDelete(selectedItem)}
                               className="bg-red-600 hover:bg-red-700"
                             >
