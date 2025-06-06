@@ -150,23 +150,17 @@ export default function ThemeModal({ isOpen, onClose }: ThemeModalProps) {
   console.log("ThemeModal rendered", { isOpen, selectedMode });
 
   useEffect(() => {
-    if (isOpen) {
-      // Load saved themes from localStorage
-      const themes = localStorage.getItem("savedThemes");
-      if (themes) {
-        setSavedThemes(JSON.parse(themes));
-      }
+    if (!isOpen) return;
 
-      // Load current custom theme
+    if (typeof window !== "undefined") {
+      // Safe to use localStorage here
+      const themes = localStorage.getItem("savedThemes");
+      if (themes) setSavedThemes(JSON.parse(themes));
+
       const currentLight = localStorage.getItem("customLightTheme");
       const currentDark = localStorage.getItem("customDarkTheme");
-
-      if (currentLight) {
-        setCustomTheme(JSON.parse(currentLight));
-      }
-      if (currentDark) {
-        setDarkTheme(JSON.parse(currentDark));
-      }
+      if (currentLight) setCustomTheme(JSON.parse(currentLight));
+      if (currentDark) setDarkTheme(JSON.parse(currentDark));
     }
   }, [isOpen]);
 
