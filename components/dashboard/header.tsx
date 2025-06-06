@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   RiMenuLine,
@@ -29,6 +29,7 @@ import ThemeModal from "@/components/customization/theme-modal";
 import { useCompany } from "@/components/context/company-context";
 
 
+
 interface HeaderProps {
   onToggleSidebar: () => void;
   currentScreen: string;
@@ -45,15 +46,23 @@ export default function Header({ onToggleSidebar, currentScreen, userName }: Hea
   const [currentUserName, setCurrentUserName] = useState(userName);
   const [userAvatar, setUserAvatar] = useState("");
   const { companyName, companyLogo } = useCompany();
+  const [userEmail, setUserEmail] = useState("");
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUserEmail(localStorage.getItem("userEmail") || "");
+    }
+  }, []);
 
   console.log("Header rendered", { currentScreen, userName, theme });
 
   const handleLogout = () => {
     console.log("User logout initiated");
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userName");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("isAuthenticated");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userName");
+    }
     toast({
       title: "Logged out",
       description: "You have been successfully logged out",
@@ -159,7 +168,7 @@ export default function Header({ onToggleSidebar, currentScreen, userName }: Hea
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium leading-none">{currentUserName}</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  {localStorage.getItem("userEmail")}
+                  {userEmail}
                 </p>
               </div>
             </DropdownMenuLabel>
@@ -206,7 +215,7 @@ export default function Header({ onToggleSidebar, currentScreen, userName }: Hea
         isOpen={profileOpen}
         onClose={() => setProfileOpen(false)}
         userName={currentUserName}
-        userEmail={localStorage.getItem("userEmail") || ""}
+        userEmail={userEmail}
         onUpdate={handleProfileUpdate}
       />
 

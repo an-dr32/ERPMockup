@@ -42,16 +42,20 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const checkAuth = () => {
-      const auth = localStorage.getItem("isAuthenticated");
-      const name = localStorage.getItem("userName");
+      if (typeof window !== "undefined") {
 
-      console.log("Auth check:", { auth, name });
+        const auth = localStorage.getItem("isAuthenticated");
+        const name = localStorage.getItem("userName");
 
-      if (auth === "true" && name) {
-        setIsAuthenticated(true);
-        setUserName(name);
-      } else {
-        router.push("/auth/login");
+
+        console.log("Auth check:", { auth, name });
+
+        if (auth === "true" && name) {
+          setIsAuthenticated(true);
+          setUserName(name);
+        } else {
+          router.push("/auth/login");
+        }
       }
     };
 
@@ -65,12 +69,13 @@ export default function DashboardPage() {
 
   const getDataForScreen = (screen: string) => {
     const storageKey = `erp_data_${screen}`;
-    const stored = localStorage.getItem(storageKey);
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(storageKey);
 
-    if (stored) {
-      return JSON.parse(stored);
+      if (stored) {
+        return JSON.parse(stored);
+      }
     }
-
     // Default data
     const defaultData: Record<string, any[]> = {
       dashboard: [
@@ -128,14 +133,17 @@ export default function DashboardPage() {
     };
 
     const data = defaultData[screen] || [];
-    localStorage.setItem(storageKey, JSON.stringify(data));
+    if (typeof window !== "undefined") {
+      localStorage.setItem(storageKey, JSON.stringify(data));
+    }
     return data;
   };
 
   const saveDataForScreen = (screen: string, data: any[]) => {
     const storageKey = `erp_data_${screen}`;
-    localStorage.setItem(storageKey, JSON.stringify(data));
-    setCurrentData(data);
+    if (typeof window !== "undefined") {
+      localStorage.setItem(storageKey, JSON.stringify(data));
+    } setCurrentData(data);
   };
 
   const getColumns = (activeItem: string) => {

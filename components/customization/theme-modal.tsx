@@ -267,10 +267,12 @@ export default function ThemeModal({ isOpen, onClose }: ThemeModalProps) {
 
   // Example usage in your modal when applying a theme:
   const handleApplyTheme = () => {
-    // Save to localStorage if needed
-    localStorage.setItem("customLightTheme", JSON.stringify(customTheme));
-    localStorage.setItem("customDarkTheme", JSON.stringify(darkTheme));
 
+    if (typeof window !== "undefined") {
+      // Save to localStorage if needed
+      localStorage.setItem("customLightTheme", JSON.stringify(customTheme));
+      localStorage.setItem("customDarkTheme", JSON.stringify(darkTheme));
+    }
     // Apply to :root (light mode)
     applyThemeVars(customTheme);
 
@@ -301,8 +303,9 @@ export default function ThemeModal({ isOpen, onClose }: ThemeModalProps) {
 
     const updated = [...savedThemes, newTheme];
     setSavedThemes(updated);
-    localStorage.setItem("savedThemes", JSON.stringify(updated));
-
+    if (typeof window !== "undefined") {
+      localStorage.setItem("savedThemes", JSON.stringify(updated));
+    }
     toast({
       title: "Theme Saved",
       description: `"${themeName}" has been saved to your custom themes`,
@@ -383,9 +386,10 @@ export default function ThemeModal({ isOpen, onClose }: ThemeModalProps) {
   };
 
   const handleSave = () => {
-    localStorage.setItem("customLightTheme", JSON.stringify(customTheme));
-    localStorage.setItem("customDarkTheme", JSON.stringify(darkTheme));
-
+    if (typeof window !== "undefined") {
+      localStorage.setItem("customLightTheme", JSON.stringify(customTheme));
+      localStorage.setItem("customDarkTheme", JSON.stringify(darkTheme));
+    }
     // Apply both themes
     const root = document.documentElement;
     root.style.setProperty("--primary", hexToHSL(customTheme.primary));

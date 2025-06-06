@@ -40,7 +40,9 @@ export default function ProfileModal({
   useEffect(() => {
     if (isOpen) {
       setName(userName);
-      setAvatarUrl(localStorage.getItem("userAvatar") || "");
+      if (typeof window !== "undefined") {
+        setAvatarUrl(localStorage.getItem("userAvatar") || "");
+      }
     }
   }, [isOpen, userName]);
 
@@ -67,9 +69,13 @@ export default function ProfileModal({
     }
 
     // Save to localStorage
-    localStorage.setItem("userName", name);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("userName", name);
+    }
     if (avatarUrl) {
-      localStorage.setItem("userAvatar", avatarUrl);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("userAvatar", avatarUrl);
+      }
     }
 
     onUpdate(name, avatarUrl);

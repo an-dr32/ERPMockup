@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { 
-  RiSettings3Line, 
-  RiNotificationLine, 
-  RiShieldLine, 
+import {
+  RiSettings3Line,
+  RiNotificationLine,
+  RiShieldLine,
   RiGlobalLine,
   RiSaveLine,
   RiImageLine
@@ -55,12 +55,15 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
   useEffect(() => {
     if (isOpen) {
       // Load settings from localStorage
-      setCompanyName(localStorage.getItem("companyName") || "My Company");
-      setCompanyLogo(localStorage.getItem("companyLogo") || "");
-      setNotifications(localStorage.getItem("notifications") !== "false");
-      setAutoSave(localStorage.getItem("autoSave") !== "false");
-      setLanguage(localStorage.getItem("language") || "en");
-      setTimezone(localStorage.getItem("timezone") || "UTC");
+      if (typeof window !== "undefined") {
+
+        setCompanyName(localStorage.getItem("companyName") || "My Company");
+        setCompanyLogo(localStorage.getItem("companyLogo") || "");
+        setNotifications(localStorage.getItem("notifications") !== "false");
+        setAutoSave(localStorage.getItem("autoSave") !== "false");
+        setLanguage(localStorage.getItem("language") || "en");
+        setTimezone(localStorage.getItem("timezone") || "UTC");
+      }
     }
   }, [isOpen]);
 
@@ -75,12 +78,14 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
     });
 
     // Save to localStorage
-    localStorage.setItem("companyName", companyName);
-    localStorage.setItem("companyLogo", companyLogo);
-    localStorage.setItem("notifications", notifications.toString());
-    localStorage.setItem("autoSave", autoSave.toString());
-    localStorage.setItem("language", language);
-    localStorage.setItem("timezone", timezone);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("companyName", companyName);
+      localStorage.setItem("companyLogo", companyLogo);
+      localStorage.setItem("notifications", notifications.toString());
+      localStorage.setItem("autoSave", autoSave.toString());
+      localStorage.setItem("language", language);
+      localStorage.setItem("timezone", timezone);
+    }
 
     toast({
       title: "Settings Saved",
@@ -116,14 +121,14 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
             Manage your application settings and preferences.
           </DialogDescription>
         </DialogHeader>
-        
+
         <Tabs defaultValue="general" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="company">Company</TabsTrigger>
             <TabsTrigger value="preferences">Preferences</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="general" className="space-y-4">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -141,9 +146,9 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   onCheckedChange={setNotifications}
                 />
               </div>
-              
+
               <Separator />
-              
+
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label className="text-base">Auto Save</Label>
@@ -158,7 +163,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
               </div>
             </div>
           </TabsContent>
-          
+
           <TabsContent value="company" className="space-y-4">
             <div className="space-y-4">
               <div className="grid grid-cols-4 items-center gap-4">
@@ -173,7 +178,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   placeholder="Enter company name"
                 />
               </div>
-              
+
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="company-logo" className="text-right">
                   Company Logo
@@ -210,7 +215,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
               </div>
             </div>
           </TabsContent>
-          
+
           <TabsContent value="preferences" className="space-y-4">
             <div className="space-y-4">
               <div className="grid grid-cols-4 items-center gap-4">
@@ -231,7 +236,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="timezone" className="text-right">
                   Timezone
@@ -252,7 +257,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
             </div>
           </TabsContent>
         </Tabs>
-        
+
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
             Cancel

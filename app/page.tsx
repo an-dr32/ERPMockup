@@ -8,14 +8,17 @@ export default function Home() {
 
   useEffect(() => {
     console.log("Home page - checking authentication");
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
-    
-    if (isAuthenticated === "true") {
-      console.log("User authenticated, redirecting to dashboard");
-      router.push("/dashboard");
-    } else {
-      console.log("User not authenticated, redirecting to login");
-      router.push("/auth/login");
+    if (typeof window !== "undefined") {
+
+      const isAuthenticated = localStorage.getItem("isAuthenticated");
+
+      if (isAuthenticated === "true") {
+        console.log("User authenticated, redirecting to dashboard");
+        router.push("/dashboard");
+      } else {
+        console.log("User not authenticated, redirecting to login");
+        router.push("/auth/login");
+      }
     }
   }, [router]);
 

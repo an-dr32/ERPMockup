@@ -36,9 +36,11 @@ export default function LoginForm() {
     setTimeout(() => {
       if (formData.email === "admin@company.com" && formData.password === "admin123") {
         console.log("Login successful");
-        localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("userEmail", formData.email);
-        localStorage.setItem("userName", "John Doe");
+        if (typeof window !== "undefined") {
+          localStorage.setItem("isAuthenticated", "true");
+          localStorage.setItem("userEmail", formData.email);
+          localStorage.setItem("userName", "John Doe");
+        }
         toast({
           title: "Login successful",
           description: "Welcome to the ERP system",
