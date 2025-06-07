@@ -21,12 +21,14 @@ export default function LoginForm() {
     rememberMe: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   console.log("LoginForm component rendered", { formData });
 
   const handleInputChange = (field: string, value: string | boolean) => {
     console.log("Input changed:", field, value);
     setFormData(prev => ({ ...prev, [field]: value }));
+    setError("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,6 +52,7 @@ export default function LoginForm() {
         router.push("/dashboard");
       } else {
         console.log("Login failed");
+        setError("Invalid email or password"); // <-- Add this line
         toast({
           variant: "destructive",
           title: "Login failed",
@@ -151,6 +154,9 @@ export default function LoginForm() {
             </Label>
           </div>
         </div>
+        {error && (
+          <div className="text-red-600 text-sm text-center">{error}</div>
+        )}
 
         <Button
           type="submit"
