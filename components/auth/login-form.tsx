@@ -58,6 +58,8 @@ export default function LoginForm() {
           title: "Login failed",
           description: "Invalid email or password",
         });
+        setTimeout(() => setError(""), 3000);
+
       }
       setIsLoading(false);
     }, 1500);
